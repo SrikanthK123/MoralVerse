@@ -25,7 +25,8 @@ const allowedOrigins = [
     CLIENT_URL,
     "http://localhost:3000",
     "http://localhost:5173",
-    "https://moralverse.onrender.com" // Update this with your actual Render URL
+    "https://moralverse.onrender.com",
+    "https://moral-verse.vercel.app"
 ];
 
 app.use(cors({
