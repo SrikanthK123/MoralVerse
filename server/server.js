@@ -31,10 +31,11 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        // Allow all origins in production for now to fix deployment issues
+        if (isProduction || !origin || allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
             callback(null, true);
         } else {
-            callback(null, true); // More relaxed for initial deployment
+            callback(null, new Error('Not allowed by CORS'));
         }
     },
     credentials: true
@@ -83,9 +84,11 @@ const server = app.listen(PORT, () => {
 // Initialize Socket.io
 io = require('socket.io')(server, {
     cors: {
-        origin: allowedOrigins,
+        origin: true, // Allow all origins for easier debugging
+        methods: ["GET", "POST"],
         credentials: true
-    }
+    },
+    transports: ['websocket', 'polling'] // Ensure both are tried
 });
 
 io.on('connection', (socket) => {
