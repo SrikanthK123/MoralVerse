@@ -35,7 +35,7 @@ const AdminDashboard = () => {
 
     useEffect(() => {
         const socket = io(ABSOLUTE_BACKEND_URL, {
-            transports: ['websocket', 'polling']
+            transports: ['polling', 'websocket']
         });
 
         socket.on('userUpdated', (updatedUser) => {

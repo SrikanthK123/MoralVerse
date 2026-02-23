@@ -5,7 +5,7 @@ const SOCKET_URL = ABSOLUTE_BACKEND_URL;
 
 export const socket = io(SOCKET_URL, {
     autoConnect: true,
-    transports: ['websocket', 'polling']
+    transports: ['polling', 'websocket']
 });
 
 socket.on('connect', () => {

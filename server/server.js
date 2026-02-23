@@ -30,7 +30,14 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: isProduction ? "*" : allowedOrigins,
+    origin: function (origin, callback) {
+        // In production, allow the specific Vercel URL or any vercel.app domain
+        if (!origin || isProduction || allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
+            callback(null, true);
+        } else {
+            callback(null, new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
