@@ -94,12 +94,12 @@ const server = app.listen(PORT, () => {
 // Initialize Socket.io
 io = require('socket.io')(server, {
     cors: {
-        origin: "*",
+        origin: true,
         methods: ["GET", "POST"],
         credentials: true
     },
     allowEIO3: true,
-    transports: ['websocket', 'polling']
+    transports: ['polling', 'websocket']
 });
 
 io.on('connection', (socket) => {
