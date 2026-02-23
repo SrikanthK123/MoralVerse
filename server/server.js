@@ -44,13 +44,22 @@ app.use('/api/admin', require('./routes/adminRoutes'));
 
 // Serve Frontend in Production
 if (isProduction) {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    const frontendPath = path.join(__dirname, '../client/dist');
+    const fs = require('fs');
 
-    app.get('*', (req, res) => {
-        if (!req.path.startsWith('/api')) {
-            res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
-        }
-    });
+    if (fs.existsSync(frontendPath)) {
+        app.use(express.static(frontendPath));
+
+        app.get('*', (req, res) => {
+            if (!req.path.startsWith('/api')) {
+                res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+            }
+        });
+    } else {
+        app.get('/', (req, res) => {
+            res.json({ message: "MoralVerse API is running", status: "Backend Only Mode" });
+        });
+    }
 }
 
 // Socket Placeholder
