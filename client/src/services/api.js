@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const isProduction = window.location.hostname !== 'localhost';
 // The absolute URL of your Render backend
-export const ABSOLUTE_BACKEND_URL = isProduction ? 'https://moralverse.onrender.com' : 'http://localhost:4000';
+export const ABSOLUTE_BACKEND_URL = isProduction ? 'https://moralverse-1.onrender.com' : 'http://localhost:4000';
 // In production, we use relative paths so Vercel can proxy them to our Render backend
 export const BASE_URL = isProduction ? '' : 'http://localhost:4000';
 
