@@ -110,6 +110,15 @@ const Navbar = () => {
                                     >
                                         Profile
                                     </Link>
+                                    {user.role === 'admin' && (
+                                        <Link
+                                            to="/admin"
+                                            className="text-slate-800 hover:text-slate-900 block px-3 py-2 rounded-md text-base font-black uppercase tracking-widest italic font-mono flex items-center gap-2"
+                                        >
+                                            <Shield className="w-4 h-4" />
+                                            Admin
+                                        </Link>
+                                    )}
                                     <button
                                         onClick={handleLogout}
                                         className="w-full text-left text-red-500 hover:text-red-600 hover:bg-red-50 block px-3 py-2 rounded-md text-base font-medium"

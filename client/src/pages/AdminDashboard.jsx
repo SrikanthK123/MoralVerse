@@ -176,7 +176,7 @@ const AdminDashboard = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         {post.userId?.avatar ? (
-                                                            <img src={`http://localhost:4000${post.userId.avatar}`} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                                            <img src={`${BASE_URL}${post.userId.avatar}`} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                                         ) : (
                                                             <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 text-xs shrink-0">
                                                                 {post.userId?.username?.charAt(0).toUpperCase()}
@@ -196,7 +196,7 @@ const AdminDashboard = () => {
                                                                 onClick={() => setSelectedImage(post.imageUrl)}
                                                             >
                                                                 <img
-                                                                    src={`http://localhost:4000${post.imageUrl}`}
+                                                                    src={`${BASE_URL}${post.imageUrl}`}
                                                                     alt="Post Preview"
                                                                     className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300"
                                                                 />
