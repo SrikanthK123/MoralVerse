@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
+import { BASE_URL } from './api';
 
-const SOCKET_URL = 'http://localhost:4000';
+const SOCKET_URL = BASE_URL;
 
 export const socket = io(SOCKET_URL, {
     autoConnect: true,

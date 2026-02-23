@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion';
+import { BASE_URL } from '../services/api';
 
 const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
     const getBackgroundStyle = () => {
         const { background, imageUrl } = post;
         if (imageUrl) {
             return {
-                backgroundImage: `url("http://localhost:4000${imageUrl}")`,
+                backgroundImage: `url("${BASE_URL}${imageUrl}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 transition: 'all 0.6s ease'

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, AlertCircle, Search, Filter, X, ImageIcon, Heart, MessageSquare } from 'lucide-react';
 import { io } from 'socket.io-client';
-import API from '../services/api';
+import API, { BASE_URL } from '../services/api';
 
 const AdminDashboard = () => {
     const [posts, setPosts] = useState([]);
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        const socket = io('http://localhost:4000');
+        const socket = io(BASE_URL);
 
         socket.on('userUpdated', (updatedUser) => {
             setPosts(prevPosts => prevPosts.map(post => {
