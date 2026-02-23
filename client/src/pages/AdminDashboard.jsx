@@ -284,7 +284,7 @@ const AdminDashboard = () => {
                             <X className="w-6 h-6" />
                         </button>
                         <img
-                            src={`http://localhost:4000${selectedImage}`}
+                            src={`${BASE_URL}${selectedImage}`}
                             alt="Full Preview"
                             className="max-w-full max-h-[85vh] object-contain"
                         />
