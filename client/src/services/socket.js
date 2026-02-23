@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
-import { BASE_URL } from './api';
+import { ABSOLUTE_BACKEND_URL } from './api';
 
-const SOCKET_URL = BASE_URL;
+const SOCKET_URL = ABSOLUTE_BACKEND_URL;
 
 export const socket = io(SOCKET_URL, {
     autoConnect: true,

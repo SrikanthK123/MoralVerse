@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import API, { BASE_URL } from '../services/api';
+import API, { BASE_URL, ABSOLUTE_BACKEND_URL } from '../services/api';
 import PostCard from '../components/PostCard';
 import AuthContext from '../context/AuthContext';
 import { Camera, Mail, LayoutGrid } from 'lucide-react';
