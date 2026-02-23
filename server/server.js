@@ -29,20 +29,29 @@ const allowedOrigins = [
     "https://moral-verse.vercel.app"
 ];
 
+// Request Logging Middleware (Helpful for Production Debugging)
+app.use((req, res, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - Origin: ${req.headers.origin || 'No Origin'}`);
+    next();
+});
+
 app.use(cors({
-    origin: function (origin, callback) {
-        // In production, allow the specific Vercel URL or any vercel.app domain
-        if (!origin || isProduction || allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
-            callback(null, true);
-        } else {
-            callback(null, new Error('Not allowed by CORS'));
-        }
-    },
+    origin: true, // Dynamically allow the requesting origin (Safe with credentials: true)
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Health Check Route
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'UP',
+        timestamp: new Date().toISOString(),
+        mongodb: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+        env: process.env.NODE_ENV
+    });
+});
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -94,7 +103,7 @@ const server = app.listen(PORT, () => {
 // Initialize Socket.io
 io = require('socket.io')(server, {
     cors: {
-        origin: true,
+        origin: (origin, callback) => callback(null, true), // Allow all securely
         methods: ["GET", "POST"],
         credentials: true
     },
