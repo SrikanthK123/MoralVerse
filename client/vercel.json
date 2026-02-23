@@ -3,11 +3,11 @@
     "rewrites": [
         {
             "source": "/api/:path*",
-            "destination": "https://moral-verse.onrender.com/api/:path*"
+            "destination": "https://moralverse.onrender.com/api/:path*"
         },
         {
             "source": "/uploads/:path*",
-            "destination": "https://moral-verse.onrender.com/uploads/:path*"
+            "destination": "https://moralverse.onrender.com/uploads/:path*"
         },
         {
             "source": "/(.*)",
