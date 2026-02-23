@@ -30,15 +30,9 @@ const allowedOrigins = [
 ];
 
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow all origins in production for now to fix deployment issues
-        if (isProduction || !origin || allowedOrigins.indexOf(origin) !== -1 || origin.includes('vercel.app')) {
-            callback(null, true);
-        } else {
-            callback(null, new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true
+    origin: isProduction ? "*" : allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -84,11 +78,12 @@ const server = app.listen(PORT, () => {
 // Initialize Socket.io
 io = require('socket.io')(server, {
     cors: {
-        origin: true, // Allow all origins for easier debugging
+        origin: "*",
         methods: ["GET", "POST"],
         credentials: true
     },
-    transports: ['websocket', 'polling'] // Ensure both are tried
+    allowEIO3: true,
+    transports: ['websocket', 'polling']
 });
 
 io.on('connection', (socket) => {
