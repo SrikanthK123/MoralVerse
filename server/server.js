@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors({
-    origin: true, // Dynamically allow the requesting origin (Safe with credentials: true)
+    origin: (origin, callback) => callback(null, true), // Dynamically allow any origin
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 }));
