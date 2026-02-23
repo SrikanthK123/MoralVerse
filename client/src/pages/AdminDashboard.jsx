@@ -34,7 +34,9 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        const socket = io(ABSOLUTE_BACKEND_URL);
+        const socket = io(ABSOLUTE_BACKEND_URL, {
+            transports: ['websocket', 'polling']
+        });
 
         socket.on('userUpdated', (updatedUser) => {
             setPosts(prevPosts => prevPosts.map(post => {
