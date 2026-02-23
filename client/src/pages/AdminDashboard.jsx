@@ -85,10 +85,12 @@ const AdminDashboard = () => {
         }
     };
 
-    const filteredPosts = posts.filter(post =>
-        post.quote?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.userId?.username?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const filteredPosts = posts.filter(post => {
+        const searchSafeContent = post.textContent || post.quote || '';
+        const searchSafeUsername = post.userId?.username || 'Unknown';
+        return searchSafeContent.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            searchSafeUsername.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
     return (
         <div className="max-w-6xl mx-auto py-10 px-4">
@@ -210,7 +212,7 @@ const AdminDashboard = () => {
                                                             </div>
                                                         )}
                                                         <p className="text-slate-600 line-clamp-2 italic font-serif text-[10px] md:text-xs max-w-[150px] md:max-w-[200px]">
-                                                            "{post.quote || post.textContent}"
+                                                            "{post.textContent || post.quote || 'No content'}"
                                                         </p>
                                                     </div>
                                                 </td>

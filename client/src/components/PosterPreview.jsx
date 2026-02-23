@@ -15,7 +15,15 @@ const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
         if (background) {
             if (background.type === 'color') return { backgroundColor: background.value };
             if (background.type === 'gradient') return { background: background.value };
-            if (background.type === 'image') return { backgroundImage: `url(${background.value})`, transition: 'all 0.6s ease' };
+            if (background.type === 'image') {
+                const url = background.value?.startsWith('/') ? `${BASE_URL}${background.value}` : background.value;
+                return {
+                    backgroundImage: `url("${url}")`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    transition: 'all 0.6s ease'
+                };
+            }
         }
         return { backgroundColor: '#1e293b', transition: 'all 0.6s ease' };
     };
