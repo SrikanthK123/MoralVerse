@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import API, { BASE_URL, ABSOLUTE_BACKEND_URL } from '../services/api';
+import API, { BASE_URL, ABSOLUTE_BACKEND_URL, getImageUrl } from '../services/api';
 import PostCard from '../components/PostCard';
 import AuthContext from '../context/AuthContext';
 import { Camera, Mail, LayoutGrid } from 'lucide-react';
@@ -67,7 +67,7 @@ const Profile = () => {
                     <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl font-bold text-primary transition-transform duration-300 group-hover:scale-[1.02]">
                         {user?.avatar ? (
                             <img
-                                src={`${BASE_URL}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}`}
+                                src={getImageUrl(user.avatar)}
                                 alt={user.username}
                                 className="w-full h-full object-cover"
                             />

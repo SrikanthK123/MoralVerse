@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Trash2, AlertCircle, Search, Filter, X, ImageIcon, Heart, MessageSquare } from 'lucide-react';
 import { io } from 'socket.io-client';
-import API, { BASE_URL, ABSOLUTE_BACKEND_URL } from '../services/api';
+import API, { BASE_URL, ABSOLUTE_BACKEND_URL, getImageUrl } from '../services/api';
 
 const AdminDashboard = () => {
     const [posts, setPosts] = useState([]);
@@ -178,7 +178,7 @@ const AdminDashboard = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         {post.userId?.avatar ? (
-                                                            <img src={`${BASE_URL}${post.userId.avatar.startsWith('/') ? '' : '/'}${post.userId.avatar}`} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                                            <img src={getImageUrl(post.userId.avatar)} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                                         ) : (
                                                             <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 text-xs shrink-0">
                                                                 {(post.userId?.username || post.username || '?').charAt(0).toUpperCase()}
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
                                                                 onClick={() => setSelectedImage(post.imageUrl || post.background?.value)}
                                                             >
                                                                 <img
-                                                                    src={`${BASE_URL}${(post.imageUrl || post.background?.value || '').startsWith('/') ? '' : '/'}${post.imageUrl || post.background?.value}`}
+                                                                    src={getImageUrl(post.imageUrl || post.background?.value)}
                                                                     alt="Post Preview"
                                                                     className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300"
                                                                 />
@@ -288,7 +288,7 @@ const AdminDashboard = () => {
                             <X className="w-6 h-6" />
                         </button>
                         <img
-                            src={`${BASE_URL}${selectedImage.startsWith('/') ? '' : '/'}${selectedImage}`}
+                            src={getImageUrl(selectedImage)}
                             alt="Full Preview"
                             className="max-w-full max-h-[85vh] object-contain"
                         />
