@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 
 // @desc    Create a new post
@@ -44,6 +45,9 @@ const createPost = async (req, res) => {
     res.status(201).json(savedPost);
   } catch (error) {
     console.error(error);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
@@ -57,6 +61,9 @@ const getPosts = async (req, res) => {
     res.json(posts);
   } catch (error) {
     console.error(error);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
@@ -74,6 +81,9 @@ const getPostById = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
@@ -112,6 +122,9 @@ const likePost = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };
@@ -175,6 +188,9 @@ const deletePost = async (req, res) => {
     res.json({ message: 'Post removed' });
   } catch (error) {
     console.error(error);
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+    }
     res.status(500).json({ message: 'Server Error', error: error.message });
   }
 };

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const User = require('../models/User');
 const { protect } = require('../middleware/auth');
@@ -14,6 +15,9 @@ router.get('/posts', protect, admin, async (req, res) => {
         res.json(posts);
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -33,6 +37,9 @@ router.delete('/posts/:id', protect, admin, async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -53,6 +60,9 @@ router.get('/stats', protect, admin, async (req, res) => {
         });
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -76,6 +86,9 @@ router.delete('/posts/:postId/comments/:commentId', protect, admin, async (req, 
         res.json({ message: 'Comment removed by admin', comments: post.comments });
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 });

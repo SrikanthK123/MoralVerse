@@ -18,7 +18,7 @@ process.on('uncaughtException', (error) => {
 const app = express();
 
 // Database Connection
-const connectDB = require('./config/db');
+const { connectDB, getConnectionError } = require('./config/db');
 connectDB();
 
 // Middleware
@@ -54,10 +54,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health Check Route
 app.get('/api/health', (req, res) => {
+    const dbStatus = mongoose.connection.readyState;
+    const dbStatusMap = {
+        0: 'Disconnected',
+        1: 'Connected',
+        2: 'Connecting',
+        3: 'Disconnecting'
+    };
+
     res.json({
         status: 'UP',
         timestamp: new Date().toISOString(),
-        mongodb: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
+        mongodb: dbStatusMap[dbStatus] || 'Unknown',
+        mongoError: dbStatus !== 1 ? getConnectionError() : null,
         env: process.env.NODE_ENV
     });
 });
