@@ -62,23 +62,44 @@ const CommentModal = ({ isOpen, onClose, comments, postAuthorId, onAddComment, c
                         ) : (
                             comments.map((comment, index) => {
                                 const isAuthor = comment.userId === postAuthorId;
+                                const isAdmin = comment.userRole === 'admin' || comment.username === 'Administrator';
+
                                 return (
                                     <div key={index} className={`flex gap-3 ${isAuthor ? 'bg-primary/5 p-2 rounded-lg border border-primary/20' : ''}`}>
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isAuthor ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'}`}>
-                                            {isAuthor ? <Award className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${isAdmin
+                                                ? 'bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 text-slate-900 shadow-[0_0_10px_rgba(251,191,36,0.5)] ring-2 ring-amber-200'
+                                                : isAuthor ? 'bg-primary text-white' : 'bg-slate-200 text-slate-500'
+                                            }`}>
+                                            {isAdmin ? (
+                                                <motion.div
+                                                    animate={{ rotate: [0, -10, 10, -10, 0] }}
+                                                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                                                >
+                                                    <Award className="w-4 h-4" />
+                                                </motion.div>
+                                            ) : isAuthor ? (
+                                                <Award className="w-4 h-4" />
+                                            ) : (
+                                                <User className="w-4 h-4" />
+                                            )}
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2">
-                                                <span className={`font-bold text-sm ${isAuthor ? 'text-primary' : 'text-slate-700'}`}>
+                                                <span className={`font-bold text-sm ${isAdmin ? 'text-amber-600' : isAuthor ? 'text-primary' : 'text-slate-700'}`}>
                                                     {comment.username}
                                                 </span>
-                                                {isAuthor && (
+                                                {isAdmin && (
+                                                    <span className="text-[10px] bg-gradient-to-r from-amber-500 to-yellow-400 text-white px-1.5 py-0.5 rounded-full font-black uppercase tracking-tighter flex items-center gap-1 shadow-sm">
+                                                        Admin
+                                                    </span>
+                                                )}
+                                                {isAuthor && !isAdmin && (
                                                     <span className="text-[10px] bg-primary text-white px-1.5 py-0.5 rounded-full font-medium">
                                                         Author
                                                     </span>
                                                 )}
                                                 <span className="text-slate-400 text-xs">
-                                                    {/* If we had timestamps, we'd put them here */}
+                                                    {comment.createdAt && new Date(comment.createdAt).toLocaleDateString()}
                                                 </span>
                                             </div>
                                             <p className="text-slate-600 text-sm mt-0.5">{comment.text}</p>

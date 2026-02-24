@@ -142,6 +142,7 @@ const commentOnPost = async (req, res) => {
       const comment = {
         userId: req.user._id,
         username: req.user.username,
+        userRole: req.user.role,
         text,
       };
 
