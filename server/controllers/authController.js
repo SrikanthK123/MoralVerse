@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -47,6 +48,9 @@ const registerUser = async (req, res) => {
         });
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
@@ -69,6 +73,9 @@ const verifyEmail = async (req, res) => {
         res.status(200).json({ message: 'Email verified successfully!' });
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -119,6 +126,9 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
@@ -175,6 +185,9 @@ const forgotPassword = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -204,6 +217,9 @@ const resetPassword = async (req, res) => {
         res.status(200).json({ message: 'Password reset successful!' });
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
@@ -244,6 +260,9 @@ const updateAvatar = async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ message: 'Database connection issue. Please try again later.' });
+        }
         res.status(500).json({ message: 'Server error' });
     }
 };
