@@ -5,8 +5,11 @@ const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
     const getBackgroundStyle = () => {
         const { background, imageUrl } = post;
         if (imageUrl) {
+            const url = imageUrl.startsWith('http')
+                ? imageUrl
+                : `${BASE_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
             return {
-                backgroundImage: `url("${BASE_URL}${imageUrl}")`,
+                backgroundImage: `url("${url}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 transition: 'all 0.6s ease'
@@ -16,7 +19,10 @@ const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
             if (background.type === 'color') return { backgroundColor: background.value };
             if (background.type === 'gradient') return { background: background.value };
             if (background.type === 'image') {
-                const url = background.value?.startsWith('/') ? `${BASE_URL}${background.value}` : background.value;
+                const imageUrl = background.value;
+                const url = imageUrl?.startsWith('http')
+                    ? imageUrl
+                    : `${BASE_URL}${imageUrl?.startsWith('/') ? '' : '/'}${imageUrl}`;
                 return {
                     backgroundImage: `url("${url}")`,
                     backgroundSize: 'cover',

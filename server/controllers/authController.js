@@ -220,7 +220,9 @@ const updateAvatar = async (req, res) => {
         const user = await User.findById(req.user._id);
 
         if (user) {
-            user.avatar = `/${req.file.path.replace(/\\/g, '/')}`;
+            // Ensure path is saved consistently with forward slashes and a leading slash
+            const relativePath = req.file.path.replace(/\\/g, '/');
+            user.avatar = relativePath.startsWith('/') ? relativePath : `/${relativePath}`;
             await user.save();
 
             // Emit update for Admin Dashboard

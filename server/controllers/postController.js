@@ -25,7 +25,7 @@ const createPost = async (req, res) => {
       textContent,
       textStyle,
       background,
-      imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
+      imageUrl: req.file ? `/${req.file.path.replace(/\\/g, '/')}` : null,
       aiModeration: req.moderationResult || { isMoralPositive: true, reason: '' }
     });
 

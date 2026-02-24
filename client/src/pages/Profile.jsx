@@ -67,7 +67,7 @@ const Profile = () => {
                     <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-4xl font-bold text-primary transition-transform duration-300 group-hover:scale-[1.02]">
                         {user?.avatar ? (
                             <img
-                                src={`${BASE_URL}${user.avatar}`}
+                                src={`${BASE_URL}${user.avatar.startsWith('/') ? '' : '/'}${user.avatar}`}
                                 alt={user.username}
                                 className="w-full h-full object-cover"
                             />

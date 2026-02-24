@@ -178,27 +178,29 @@ const AdminDashboard = () => {
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
                                                         {post.userId?.avatar ? (
-                                                            <img src={`${BASE_URL}${post.userId.avatar}`} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
+                                                            <img src={`${BASE_URL}${post.userId.avatar.startsWith('/') ? '' : '/'}${post.userId.avatar}`} alt="" className="w-8 h-8 rounded-full object-cover shrink-0" />
                                                         ) : (
                                                             <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 text-xs shrink-0">
-                                                                {post.userId?.username?.charAt(0).toUpperCase()}
+                                                                {(post.userId?.username || post.username || '?').charAt(0).toUpperCase()}
                                                             </div>
                                                         )}
                                                         <div className="min-w-0">
-                                                            <p className="font-bold text-slate-800 truncate text-xs md:text-sm">{post.userId?.username || 'Unknown'}</p>
-                                                            <p className="hidden md:block text-[10px] text-slate-500 truncate max-w-[120px]">{post.userId?.email}</p>
+                                                            <p className="font-bold text-slate-800 truncate text-xs md:text-sm">
+                                                                {(post.userId?.username || post.username || 'Unknown') === 'Administrator' ? 'Admin' : (post.userId?.username || post.username || 'Unknown')}
+                                                            </p>
+                                                            <p className="hidden md:block text-[10px] text-slate-500 truncate max-w-[120px]">{post.userId?.email || 'System'}</p>
                                                         </div>
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <div className="flex items-center gap-3">
-                                                        {post.imageUrl ? (
+                                                        {post.imageUrl || (post.background?.type === 'image' && post.background?.value) ? (
                                                             <div
                                                                 className="relative w-12 h-12 md:w-16 md:h-16 rounded-lg overflow-hidden cursor-zoom-in border border-slate-200 shrink-0 group/img shadow-sm hover:shadow-md transition-all"
-                                                                onClick={() => setSelectedImage(post.imageUrl)}
+                                                                onClick={() => setSelectedImage(post.imageUrl || post.background?.value)}
                                                             >
                                                                 <img
-                                                                    src={`${BASE_URL}${post.imageUrl}`}
+                                                                    src={`${BASE_URL}${(post.imageUrl || post.background?.value || '').startsWith('/') ? '' : '/'}${post.imageUrl || post.background?.value}`}
                                                                     alt="Post Preview"
                                                                     className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-300"
                                                                 />
@@ -286,7 +288,7 @@ const AdminDashboard = () => {
                             <X className="w-6 h-6" />
                         </button>
                         <img
-                            src={`${BASE_URL}${selectedImage}`}
+                            src={`${BASE_URL}${selectedImage.startsWith('/') ? '' : '/'}${selectedImage}`}
                             alt="Full Preview"
                             className="max-w-full max-h-[85vh] object-contain"
                         />
