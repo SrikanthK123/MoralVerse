@@ -26,11 +26,11 @@ const createPost = async (req, res) => {
       textContent,
       textStyle,
       background,
-      imageUrl: req.file ? `/${req.file.path.replace(/\\/g, '/')}` : null,
+      imageUrl: req.file ? req.file.path : null,
       aiModeration: req.moderationResult || { isMoralPositive: true, reason: '' }
     });
 
-    console.log('Saving Post with ImageURL:', newPost.imageUrl);
+    console.log('Saving Post with Cloudinary URL:', newPost.imageUrl);
 
     const savedPost = await newPost.save();
 
