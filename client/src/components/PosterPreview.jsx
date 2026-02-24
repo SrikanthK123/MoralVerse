@@ -1,13 +1,11 @@
 import { motion } from 'framer-motion';
-import { BASE_URL } from '../services/api';
+import { getImageUrl } from '../services/api';
 
 const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
     const getBackgroundStyle = () => {
         const { background, imageUrl } = post;
         if (imageUrl) {
-            const url = imageUrl.startsWith('http')
-                ? imageUrl
-                : `${BASE_URL}${imageUrl.startsWith('/') ? '' : '/'}${imageUrl}`;
+            const url = getImageUrl(imageUrl);
             return {
                 backgroundImage: `url("${url}")`,
                 backgroundSize: 'cover',
@@ -19,10 +17,7 @@ const PosterPreview = ({ post, scale = 1, showOverlay = true }) => {
             if (background.type === 'color') return { backgroundColor: background.value };
             if (background.type === 'gradient') return { background: background.value };
             if (background.type === 'image') {
-                const imageUrl = background.value;
-                const url = imageUrl?.startsWith('http')
-                    ? imageUrl
-                    : `${BASE_URL}${imageUrl?.startsWith('/') ? '' : '/'}${imageUrl}`;
+                const url = getImageUrl(background.value);
                 return {
                     backgroundImage: `url("${url}")`,
                     backgroundSize: 'cover',
